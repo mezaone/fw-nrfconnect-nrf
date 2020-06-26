@@ -84,7 +84,7 @@ static int power_mgmt_init(void)
 static int pca20035_board_init(struct device *dev)
 {
 	int err;
-
+	printk("Initializing PMIC\r\n");
 	err = power_mgmt_init();
 	if (err) {
 		LOG_ERR("power_mgmt_init failed with error: %d", err);
@@ -94,4 +94,4 @@ static int pca20035_board_init(struct device *dev)
 	return 0;
 }
 
-SYS_INIT(pca20035_board_init, APPLICATION, CONFIG_APPLICATION_INIT_PRIORITY);
+SYS_INIT(pca20035_board_init, POST_KERNEL, CONFIG_APPLICATION_INIT_PRIORITY);
