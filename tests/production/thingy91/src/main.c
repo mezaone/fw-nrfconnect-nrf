@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Nordic Semiconductor ASA
+ * Copyright (c) 2020 Nordic Semiconductor ASA
  *
  * SPDX-License-Identifier: LicenseRef-BSD-5-Clause-Nordic
  */
@@ -271,13 +271,11 @@ static int pca20035_ADXL362(void)
 {
 	int err = 0;
 
-	struct device *dev;
-	dev = device_get_binding("ADXL362");
+	struct device *dev = device_get_binding("ADXL362");
 	if (dev == NULL) {
 		printk("[ERROR] ADXL362, no binding established.\n");
 		return 0;
 	}
-	prod_assert_not_null(dev, -ENODEV, "Failed to get binding");
 	err = sensor_sample_fetch_chan(dev, SENSOR_CHAN_ALL);
 	prod_assert_equal(err, 0, -EIO, "Failed to fetch sensor data");
 	k_sleep(10);
@@ -446,12 +444,10 @@ void main(void)
 	k_sleep(LED_POLL_TIME);
 
 	run_test(&pca20035_BH1749, "pca20035_BH1749");
-	run_test(&pca20035_ADXL372, "pca20035_ADXL372");
 	run_test(&pca20035_ADXL362, "pca20035_ADXL362");
+	run_test(&pca20035_ADXL372, "pca20035_ADXL372");
 	run_test(&pca20035_BME680, "pca20035_BME680");
-	// run_test(&pca20035_test_button, "pca20035_button");
 	run_test(&pca20035_test_buzzer, "pca20035_buzzer");
-	//run_test(&measure_voltage, "measure_voltage");
 	k_sleep(500);
 	// Stop execution if test failed.
 	all_tests_succeeded ? printk("\r\nTEST SUITE SUCCESS!\r\n") :
